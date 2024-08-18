@@ -1,8 +1,10 @@
-// require('dotenv').config();
+require('dotenv').config();
 
 const express = require('express');
 
 const db = require('./config/connection');
+
+const all_routes = require('./routes/all_routes')
 
 // const api_routes = require('./routes/api_routes');
 
@@ -11,7 +13,7 @@ const PORT = process.env.PORT || 3333;
 
 app.use(express.json());
 
-// app.use('/api', api_routes);
+app.use('/', all_routes);
 
 db.once('open', () => {
     console.log('db connection est.')
