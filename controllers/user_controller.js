@@ -1,13 +1,9 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     async registerUser(req, res) {
         try {
             const user = await User.create(req.body);
-
-            // const token = await createToken(user._id);
-
-            // res.cookie('token', token)
 
             res.json({
                 user: user
@@ -34,20 +30,29 @@ module.exports = {
             });
         }
 
-        // const token = await createToken(user._id);
-
-        // res.cookie('token', token)
-
         res.json({
             user: user
         })
+    },
+
+    async getSingleUser(req, res) {
+        const user = await User.findById(req.params.user_id).populate('thoughts');
+
+        res.json(user);
+    },
+
+    async getAllUsers(req, res) {
+        const users = await User.find().populate('thoughts');
+
+        res.json(users);
+    },
+
+    async deleteUser(req, res) {
+        const user = await User.findById(req.params.user_id);
+
+        await user.deleteOne();
+        res.json({
+            message: 'user deleted'
+        });
     }
 }
-
-// const { sign, verify } = require('jsonwebtoken');
-
-// async function createToken(user_id) {
-//     const token = await sign({ user_id: user_id }, process.env.JWT_SECRET);
-
-//     return token;
-// }

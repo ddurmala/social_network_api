@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 3333;
 
 app.use(express.json());
 
-app.use('/', all_routes);
+//load routes
+app.use('/api', all_routes);
 
 db.once('open', () => {
     console.log('db connection est.')
