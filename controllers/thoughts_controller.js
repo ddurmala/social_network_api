@@ -8,9 +8,6 @@ module.exports = {
     },
 
     async createThought(req, res) {
-        // if (!req.user) {
-        //     return res.status(401).json({ message: 'User not authenticated' });
-        // }
 
         const newThought = await Thought.create({
             thoughtText: req.body.thoughtText,

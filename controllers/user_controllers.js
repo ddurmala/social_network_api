@@ -1,20 +1,13 @@
 const { User } = require('../models');
-const { sign, verify } = require('jsonwebtoken');
-
-async function createToken(user_id) {
-    const token = await sign({ user_id: user_id }, process.env.JWT_SECRET);
-
-    return token;
-}
 
 module.exports = {
     async registerUser(req, res) {
         try {
             const user = await User.create(req.body);
 
-            const token = await createToken(user._id);
+            // const token = await createToken(user._id);
 
-            res.cookie('token', token)
+            // res.cookie('token', token)
 
             res.json({
                 user: user
@@ -41,12 +34,20 @@ module.exports = {
             });
         }
 
-        const token = await createToken(user._id);
+        // const token = await createToken(user._id);
 
-        res.cookie('token', token)
+        // res.cookie('token', token)
 
         res.json({
             user: user
         })
     }
 }
+
+// const { sign, verify } = require('jsonwebtoken');
+
+// async function createToken(user_id) {
+//     const token = await sign({ user_id: user_id }, process.env.JWT_SECRET);
+
+//     return token;
+// }
