@@ -47,6 +47,18 @@ module.exports = {
         res.json(users);
     },
 
+    async updateUser(req, res) {
+        const user = await User.findById(req.params.user_id);
+
+        const updatedUser = await User.findOneAndUpdate({ user }, req.body, { new: true });
+
+        res.json({
+            message: 'user updated',
+            user: updatedUser
+        })
+
+    },
+
     async deleteUser(req, res) {
         const user = await User.findById(req.params.user_id);
 

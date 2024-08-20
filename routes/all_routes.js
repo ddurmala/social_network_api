@@ -18,6 +18,7 @@ router.get('/users', user_controller.getAllUsers)
 router.get('/user/:user_id', user_controller.getSingleUser)
 
 //PUT to update a user by its _id
+router.put('/user/:id', user_controller.updateUser)
 
 //DELETE to remove user by its _id
 router.delete('/user/:user_id', user_controller.deleteUser)
