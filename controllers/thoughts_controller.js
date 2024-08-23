@@ -7,9 +7,7 @@ module.exports = {
 
         const newThought = await Thought.create({
             thoughtText: req.body.thoughtText,
-            createdAt: req.body.createdAt,
             username: user.username
-            // reactions: req.body.reactions
         })
 
         user.thoughts.push(newThought._id);
@@ -32,6 +30,48 @@ module.exports = {
 
         res.json(thought);
     },
+
+    async updateThought(req, res) {
+        const updatedThought = await Thought.findOneAndUpdate({ _id: req.params.thought_id }, req.body, { new: true });
+
+        res.json({
+            message: 'thought updated',
+            thought: updatedThought
+        })
+    },
+
+    async createReaction(req, res) {
+        const thought = await Thought.findById(req.params.thought_id);
+
+        thought.reactions.push(req.body);
+        await thought.save();
+
+        res.json(thought)
+    },
+
+    async deleteReaction(req, res) {
+        // const thought = await Thought.findById(req.params.thought_id);
+
+        // thought.reactions.pull(req.params.reaction_id);
+
+        // await thought.save();
+
+        const thought = await Thought.updateOne(
+            {
+                _id: req.params.thought_id
+            },
+            {
+                $pull: {
+                    reactions: {
+                        reactionId: req.params.reaction_id
+                    }
+                }
+            }
+        )
+
+        res.json(thought)
+    },
+
     async deleteThought(req, res) {
         const thought = await Thought.findById(req.params.thought_id);
 

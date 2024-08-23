@@ -25,9 +25,10 @@ router.delete('/user/:user_id', user_controller.deleteUser)
 
 // /api/users/:user_id/friends/:friend_id
 // POST to add a new friend to a user's friend list
-
+router.post('/users/:user_id/friends/:friend_id', user_controller.addFriend)
 
 // DELETE to remove a friend from a user's friend list
+router.delete('/users/:user_id/friends/:friend_id', user_controller.deleteFriend)
 
 //THOUGHT ROUTES:
 //GET all thoughts
@@ -40,13 +41,16 @@ router.get('/thought/:thought_id', thoughts_controller.getSingleThought)
 router.post('/thoughts/:user_id', thoughts_controller.createThought);
 
 //PUT to update a thought by its _id
+router.put('/thought/:thought_id', thoughts_controller.updateThought)
 
 //DELETE to remove a thought by _id
 router.delete('/thought/:thought_id', thoughts_controller.deleteThought)
 
 // /api/thoughts/:thought_id/reactions
 //POST to create a reaction stored in a single thought's reactions array field
+router.post('/thoughts/:thought_id/reactions', thoughts_controller.createReaction)
 
 //DELETE to pull and remove a reaction by the reaction's reaction_id/reactionId value
+router.delete('/thoughts/:thought_id/reactions/:reaction_id', thoughts_controller.deleteReaction)
 
 module.exports = router;

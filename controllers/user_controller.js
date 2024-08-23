@@ -36,27 +36,52 @@ module.exports = {
     },
 
     async getSingleUser(req, res) {
-        const user = await User.findById(req.params.user_id).populate('thoughts');
+        const user = await User.findById(req.params.user_id).populate('thoughts').populate('friends');
 
         res.json(user);
     },
 
     async getAllUsers(req, res) {
-        const users = await User.find().populate('thoughts');
+        const users = await User.find().populate('thoughts').populate('friends');
 
         res.json(users);
     },
 
     async updateUser(req, res) {
-        const user = await User.findById(req.params.user_id);
 
-        const updatedUser = await User.findOneAndUpdate({ user }, req.body, { new: true });
+        const updatedUser = await User.findOneAndUpdate(req.params.user_id, req.body, { new: true });
 
         res.json({
             message: 'user updated',
             user: updatedUser
         })
 
+    },
+
+    async addFriend(req, res) {
+        const user = await User.findById(req.params.user_id);
+
+        if (!user.friends.includes(req.params.friend_id)) {
+            user.friends.push(req.params.friend_id);
+        }
+
+        await user.save();
+
+        res.json({
+            message: 'New friend added'
+        })
+    },
+
+    async deleteFriend(req, res) {
+        const user = await User.findById(req.params.user_id);
+
+        user.friends.pull(req.params.friend_id)
+
+        await user.save();
+
+        res.json({
+            message: 'friend deleted'
+        });
     },
 
     async deleteUser(req, res) {
@@ -66,5 +91,7 @@ module.exports = {
         res.json({
             message: 'user deleted'
         });
-    }
+    },
+
+
 }
